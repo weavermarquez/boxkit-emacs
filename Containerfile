@@ -10,7 +10,7 @@ RUN cd /etc/yum.repos.d/ && \
     wget https://download.opensuse.org/repositories/network:messaging:zeromq:release-draft/CentOS_8/network:messaging:zeromq:release-draft.repo
 
 COPY extra-packages /
-RUN dnf -y config-manager --set-enabled epel-testing \
+RUN dnf -y config-manager --set-enabled epel-testing AppStream \
     dnf -y install $(<extra-packages)
 RUN rm /extra-packages
 
