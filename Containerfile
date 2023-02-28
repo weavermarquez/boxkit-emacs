@@ -5,12 +5,9 @@ LABEL com.github.containers.toolbox="true" \
       summary="A cloud-native terminal experience" \
       maintainer="jorge.castro@gmail.com>"
 
-# libzmq stable-draft repository
-RUN cd /etc/yum.repos.d/ && \
-    wget https://download.opensuse.org/repositories/network:messaging:zeromq:release-draft/CentOS_8/network:messaging:zeromq:release-draft.repo
-
 COPY extra-packages /
-RUN dnf -y config-manager --set-enabled epel-testing AppStream \
+RUN dnf -y config-manager --add-repo https://download.opensuse.org/repositories/network:messaging:zeromq:release-draft/CentOS_8/network:messaging:zeromq:release-draft.repo && \
+    dnf -y config-manager --set-enabled epel-testing && \
     dnf -y install $(<extra-packages)
 RUN rm /extra-packages
 
