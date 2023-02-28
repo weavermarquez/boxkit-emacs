@@ -1,14 +1,17 @@
-FROM quay.io/toolbx-images/alpine-toolbox:3.17
+FROM quay.io/toolbx-images/centos-toolbox:stream8
 
 LABEL com.github.containers.toolbox="true" \
       usage="This image is meant to be used with the toolbox or distrobox command" \
       summary="A cloud-native terminal experience" \
       maintainer="jorge.castro@gmail.com>"
 
+# libzmq stable-draft repository
+RUN cd /etc/yum.repos.d/ && \
+    wget https://download.opensuse.org/repositories/network:messaging:zeromq:release-draft/CentOS_8/network:messaging:zeromq:release-draft.repo
+
 COPY extra-packages /
-RUN apk update && \
-    apk upgrade && \
-    grep -v '^#' /extra-packages | xargs apk add
+RUN dnf -y config-manager --set-enabled epel-testing \
+    dnf -y install $(<extra-packages)
 RUN rm /extra-packages
 
 RUN   ln -fs /bin/sh /usr/bin/sh && \

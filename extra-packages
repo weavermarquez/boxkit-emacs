@@ -4,6 +4,7 @@ chezmoi
 cosign
 dbus-x11
 direnv
+emacs
 ffmpeg
 fzf
 github-cli
@@ -24,4 +25,5 @@ starship
 vimdiff
 wl-clipboard
 zellij
+zeromq-devel
 zstd
