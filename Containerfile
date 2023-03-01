@@ -10,7 +10,6 @@ COPY extra-packages /
 RUN pacman -Syu --needed --noconfirm - < extra-packages
 RUN rm /extra-packages
 RUN pacman -Scc --noconfirm
-pacman -S --needed < extra-packages
 
 
 # === uhhh ===
