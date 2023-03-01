@@ -1,5 +1,5 @@
 ffmpeg # asks about pipewire stuff
-plocate # ACTIVE, conflicts with mlocate
+plocate # conflicts with mlocate, must switch to base-devel for this
 
 kitty
 helix

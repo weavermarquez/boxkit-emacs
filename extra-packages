@@ -19,7 +19,6 @@ atuin
 direnv
 just
 neovim
-plocate
 starship
 wl-clipboard
 zellij
