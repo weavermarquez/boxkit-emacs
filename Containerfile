@@ -22,6 +22,13 @@ RUN   ln -fs /usr/bin/distrobox-host-exec /usr/local/bin/docker && \
       ln -fs /usr/bin/distrobox-host-exec /usr/local/bin/rpm-ostree && \
       ln -fs /usr/bin/distrobox-host-exec /usr/local/bin/transactional-update
 
+# === set up user makepkg in order to build yay
+ARG user=makepkg
+RUN useradd --system --create-home $user \
+  && echo "$user ALL=(ALL:ALL) NOPASSWD:ALL" > /etc/sudoers.d/$user
+USER $user
+WORKDIR /home/$user
+
 
 # === install yay package manager for AUR ===
 RUN git clone https://aur.archlinux.org/yay.git \
@@ -33,16 +40,26 @@ RUN git clone https://aur.archlinux.org/yay.git \
 # Clean up cache
 
 
+
+# ===============================================================
+# === alternative approach from chatgpt ===
+
+# RUN useradd -m builduser
+
+# RUN git clone https://aur.archlinux.org/yay.git /tmp/yay && \
+#     chown -R builduser:builduser /tmp/yay && \
+#     su - builduser -c "cd /tmp/yay && makepkg -si --noconfirm"
+
+# RUN pacman -Scc --noconfirm && \
+#     userdel -r builduser
+
+
+# ===============================================================
+
 # === if and when i switch to arch:base-devel ===
 # Enable sudo permission for wheel users
 # RUN echo "%wheel ALL=(ALL) NOPASSWD: ALL" > /etc/sudoers.d/toolbox
 
-# === sudo instead of wheel if i switch to non-fedora host ===
-#ARG user=makepkg
-#RUN useradd --system --create-home $user \
-#  && echo "$user ALL=(ALL:ALL) NOPASSWD:ALL" > /etc/sudoers.d/$user
-#USER $user
-#WORKDIR /home/$user
 
 # ================================================================
 #  A Dockerfile to install emacs and the latest doom. Expects user to mount over ~/.doom.d/ with a
